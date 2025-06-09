@@ -96,18 +96,23 @@ def generate_powerful_prompt(image_analysis: dict, user_prompt: str) -> str:
     text_desc = [f'Text "{t["text"]}" at {t["box"]}' for t in image_analysis["text"][:2]]
 
     prompt_lines = [
-        "Photo-realistic interior render.",
-        "Preserve the original room layout and existing objects.",
-        f"Add only the requested elements and apply the described style.",
-        f"Scene includes: {', '.join(objects_desc)}.",
+        "Interior render of a real room.",
+        "Preserve all structural elements: walls, ceiling, flooring, lighting, and windows.",
+        "Do not remove existing elements like furniture, shelves, plants, or décor.",
+        "Keep the existing layout and perspective intact.",
+        "Add only the necessary furniture, colors, and decorations matching the requested style.",
+        f"Style to apply: {user_prompt}. {enhanced_style}",
+        f"Scene includes: {', '.join(objects_desc)}." if objects_desc else "",
         f"Text elements: {'; '.join(text_desc)}" if text_desc else "",
-        f"Style: {user_prompt}. {enhanced_style}",
-        f"Color scheme: {rgb_str}",
-        "8K render, architectural lighting, global illumination, ultra-detailed materials"
+        f"Color reference: {rgb_str}",
+        "Do not introduce empty spaces or large blank walls.",
+        "Do not alter the room's lighting setup or geometry.",
+        "Render at ultra high resolution with natural light, realistic materials, soft shadows.",
     ]
 
     negative_prompt = (
-        "blurry, deformed, low quality, bad lighting, wrong proportions, flat textures"
+        "blurry, deformed, low quality, empty room, white walls, low realism, bad lighting, "
+        "wrong proportions, missing objects, flat textures, simplified geometry"
     )
 
     return (
