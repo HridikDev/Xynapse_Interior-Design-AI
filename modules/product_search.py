@@ -1,29 +1,34 @@
-import os
 import requests
+import os
 from dotenv import load_dotenv
 
 load_dotenv()
-SERPAPI_KEY = os.getenv("SERPAPI_KEY")
+
+SERPAPI_API_KEY = os.getenv("SERPAPI_API_KEY")
 
 def fetch_products(prompt):
-    url = "https://serpapi.com/search.json"
+    API_URL = "https://serpapi.com/search"
+
     params = {
-        "q": prompt + " interior furniture",
-        "engine": "google_shopping",
-        "api_key": SERPAPI_KEY
+        "engine": "amazon",
+        "amazon_domain": "amazon.in",
+        "k": prompt,  # 'k' is the correct parameter for keyword search
+        "api_key": SERPAPI_API_KEY
     }
-    try:
-        response = requests.get(url, params=params)
-        response.raise_for_status()
-        data = response.json()
 
-        results = []
-        for item in data.get("shopping_results", [])[:5]:
-            results.append({
-                "name": item.get("title", "Unknown Item"),
-                "url": item.get("link", "#")
-            })
-        return results
+    response = requests.get(API_URL, params=params)
+    response.raise_for_status()
+    data = response.json()
 
-    except Exception as e:
-        return [{"name": "Error fetching products", "url": "#"}]
+    results = data.get("organic_results", [])
+    sample = results[0] if results else {}
+
+    print("Sample product data:", sample)
+
+    products = []
+    for item in results[:5]:
+        title = item.get("title", "No title")
+        url = item.get("link") or item.get("url") or "#"
+        products.append({"name": title, "url": url})
+
+    return products
