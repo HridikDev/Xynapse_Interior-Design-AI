@@ -59,4 +59,12 @@ PIL (Pillow) for image processing
 
 HTML/CSS for custom UI styling
 
+## 🤝 Collaborators
 
+Thanks to the amazing contributors who helped build this project:
+
+- **[Hridik Dev](https://github.com/HridikDev)**   
+- **[Nivin](https://github.com/nivinn-7)** 
+- **[Punnya Prasad](https://github.com/punnya-prasad)** 
+- **[Nidha Rahman](https://github.com/Nidharahman)**
+- **[Rani Kuruvilla](https://github.com/ranitresa15)** 
